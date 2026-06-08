@@ -16,7 +16,7 @@ function gerarTabuleiro() {
     }
 }
 
-function gerarPalavra() {
+function gerarPalavra(palavra) {
 
     // fetch('https://api.dicionario-aberto.net/random')
     // .then(response => response.json())
@@ -31,8 +31,6 @@ function gerarPalavra() {
 
     let coluna = 0
     let fileira = 0
-    
-    cacaPalavrasAtualizado = [...cacaPalavras]
 
     let direcao = Math.floor(Math.random() * 4)
     console.log(direcao)
@@ -165,5 +163,5 @@ function inverterString(texto) {
 }
 
 gerarTabuleiro()
-gerarPalavra()
+gerarPalavra('abc')
 mostrarLetras()
