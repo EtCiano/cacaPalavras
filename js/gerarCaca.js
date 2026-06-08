@@ -1,6 +1,7 @@
 let cacaPalavras = []
 let cordsJaOcupadas = []
-let tamanhoCacaPalavras = 15
+let cacaPalavrasAtualizado = []
+let tamanhoCacaPalavras = 20
 
 const divPrincipal = document.getElementById('div_principal')
 const alfabeto = 'abcdefghijklmnopqrstuvwxyzç'.split('')
@@ -29,7 +30,7 @@ function gerarPalavra(palavra) {
 
 
 
-        case 0:
+        case 0:         // cima para baixo
             coluna  = Math.floor(Math.random() * tamanhoCacaPalavras)
             fileira = Math.floor(Math.random() * ((tamanhoCacaPalavras - palavra.length) - 0 + 1));
 
@@ -38,21 +39,23 @@ function gerarPalavra(palavra) {
                     errado = true
                     break;
                 }
-                cacaPalavrasAtualizado[fileira+i][coluna] = palavra[i]
-                cordsJaOcupadas.push(`${fileira+i},${coluna}`)
             }
-
             if (!errado) {
-                cacaPalavras = [...cacaPalavrasAtualizado]
+                let cacaPalavrasAtualizado = structuredClone(cacaPalavras);
+                for (let i = 0; i < palavra.length; i++) {
+                    cacaPalavrasAtualizado[fileira + i][coluna] = palavra[i];
+                    cordsJaOcupadas.push(`${fileira + i},${coluna}`);
+                }
+                cacaPalavras = cacaPalavrasAtualizado;
                 break;
             } else {
-                // gerarPalavra(palavra)
+                gerarPalavra(palavra)
                 break;
             }
             
 
 
-        case 1:
+        case 1:         // esquerda para direita
             fileira  = Math.floor(Math.random() * tamanhoCacaPalavras)
             coluna = Math.floor(Math.random() * ((tamanhoCacaPalavras - palavra.length) - 0 + 1));
 
@@ -61,63 +64,69 @@ function gerarPalavra(palavra) {
                     errado = true
                     break;
                 }
-                cacaPalavrasAtualizado[fileira][coluna+i] = palavra[i]
-                cordsJaOcupadas.push(`${fileira},${coluna+i}`)
             }
-
             if (!errado) {
-                cacaPalavras = [...cacaPalavrasAtualizado]
+                let cacaPalavrasAtualizado = structuredClone(cacaPalavras);
+                for (let i = 0; i < palavra.length; i++) {
+                    cacaPalavrasAtualizado[fileira][coluna+i] = palavra[i]
+                    cordsJaOcupadas.push(`${fileira},${coluna+i}`)
+                }
+                cacaPalavras = cacaPalavrasAtualizado;
                 break;
             } else {
-                // gerarPalavra(palavra)
+                gerarPalavra(palavra)
                 break;
             }
 
 
 
-        case 2:         
-            palavra = inverterString(palavra)
-            coluna  = Math.floor(Math.random() * tamanhoCacaPalavras)
-            fileira = Math.floor(Math.random() * ((tamanhoCacaPalavras - palavra.length) - 0 + 1));
+        case 2:         // baixo para cima
+            const palavraInvertidaV = inverterString(palavra);
+            
+            coluna  = Math.floor(Math.random() * tamanhoCacaPalavras);
+            fileira = Math.floor(Math.random() * (tamanhoCacaPalavras - palavraInvertidaV.length + 1));
 
-            for (let i = 0; i < palavra.length; i++) {
+            for (let i = 0; i < palavraInvertidaV.length; i++) {
                 if (cordsJaOcupadas.includes(`${fileira+i},${coluna}`)) {
-                    errado = true
+                    errado = true;
                     break;
                 }
-                cacaPalavrasAtualizado[fileira+i][coluna] = palavra[i]
-                cordsJaOcupadas.push(`${fileira+i},${coluna}`)
             }
-
             if (!errado) {
-                cacaPalavras = [...cacaPalavrasAtualizado]
+                let cacaPalavrasAtualizado = structuredClone(cacaPalavras);
+                for (let i = 0; i < palavraInvertidaV.length; i++) {
+                    cacaPalavrasAtualizado[fileira + i][coluna] = palavraInvertidaV[i];
+                    cordsJaOcupadas.push(`${fileira + i},${coluna}`);
+                }
+                cacaPalavras = cacaPalavrasAtualizado;
                 break;
             } else {
-                // gerarPalavra(inverterString(palavra)) 
+                gerarPalavra(palavra);
                 break;
             }
 
+        case 3:         // direita para esquerda
+            const palavraInvertidaH = inverterString(palavra);
+            
+            fileira = Math.floor(Math.random() * tamanhoCacaPalavras);
+            coluna  = Math.floor(Math.random() * (tamanhoCacaPalavras - palavraInvertidaH.length + 1));
 
-
-        case 3:
-            palavra = inverterString(palavra)
-            fileira  = Math.floor(Math.random() * tamanhoCacaPalavras)
-            coluna = Math.floor(Math.random() * ((tamanhoCacaPalavras - palavra.length) - 0 + 1));
-
-            for (let i = 0; i < palavra.length; i++) {
-                if (cordsJaOcupadas.includes(`${fileira+i},${coluna}`)) {
-                    errado = true
+            for (let i = 0; i < palavraInvertidaH.length; i++) {
+                if (cordsJaOcupadas.includes(`${fileira},${coluna+i}`)) {
+                    errado = true;
                     break;
                 }
-                cacaPalavrasAtualizado[fileira][coluna+i] = palavra[i]
-                cordsJaOcupadas.push(`${fileira},${coluna+i}`)
             }
-
             if (!errado) {
-                cacaPalavras = [...cacaPalavrasAtualizado]
+                let cacaPalavrasAtualizado = structuredClone(cacaPalavras);
+                for (let i = 0; i < palavraInvertidaH.length; i++) {
+                    cacaPalavrasAtualizado[fileira][coluna+i] = palavraInvertidaH[i];
+                    cordsJaOcupadas.push(`${fileira},${coluna+i}`);
+                }
+                cacaPalavras = cacaPalavrasAtualizado;
                 break;
             } else {
-                // gerarPalavra(inverterString(palavra)) 
+                gerarPalavra(palavra);
                 break;
             }
 
@@ -130,6 +139,7 @@ function mostrarLetras() {
      for (let x = 0; x < cacaPalavras.length; x++) {
         const linha = document.createElement('div')
         linha.classList.add('div_linha')
+        linha.style.gridTemplateColumns = `repeat(${tamanhoCacaPalavras}, 1fr)`
         divPrincipal.append(linha)
         for (let y = 0; y < tamanhoCacaPalavras; y++) {
             const letra = document.createElement('div')
