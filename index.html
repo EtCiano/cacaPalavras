@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caça Palavras</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #div_principal {
+            display: flex;
+            flex-direction: column;
+            row-gap: 5px;
+        }
+        
+        .div_linha {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            column-gap: 10px;
+        }
+
+        .div_linha div {
+            font-size: 25px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="div_principal">
+    </div>
+    <script src="js/gerarCaca.js"></script>
+</body>
+</html>
