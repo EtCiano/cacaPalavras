@@ -16,7 +16,18 @@ function gerarTabuleiro() {
     }
 }
 
-function gerarPalavra(palavra) {
+function gerarPalavra() {
+
+    // fetch('https://api.dicionario-aberto.net/random')
+    // .then(response => response.json())
+    // .then(data => {
+    //     let palavra = data.word
+    //     if (palavra.length > tamanhoCacaPalavras) {
+    //         gerarPalavra()
+    //         return
+    //     }
+    // })
+    // .catch(error => console.error('Erro:', error));
 
     let coluna = 0
     let fileira = 0
@@ -154,8 +165,5 @@ function inverterString(texto) {
 }
 
 gerarTabuleiro()
-gerarPalavra('......')
-gerarPalavra('------')
-gerarPalavra(',,,,,,')
-gerarPalavra('++++++')
+gerarPalavra()
 mostrarLetras()
