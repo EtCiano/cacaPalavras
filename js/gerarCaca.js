@@ -2,6 +2,8 @@ let cacaPalavras = []
 let cordsJaOcupadas = []
 let cacaPalavrasAtualizado = []
 let tamanhoCacaPalavras = 20
+const mostradorPalavras = document.getElementById('palavras_lista')
+let listaPalavras = []
 
 const divPrincipal = document.getElementById('div_principal')
 const alfabeto = 'abcdefghijklmnopqrstuvwxyzç'.split('')
@@ -18,22 +20,10 @@ function gerarTabuleiro() {
 
 function gerarPalavra(palavra) {
 
-    // fetch('https://api.dicionario-aberto.net/random')
-    // .then(response => response.json())
-    // .then(data => {
-    //     let palavra = data.word
-    //     if (palavra.length > tamanhoCacaPalavras) {
-    //         gerarPalavra()
-    //         return
-    //     }
-    // })
-    // .catch(error => console.error('Erro:', error));
-
     let coluna = 0
     let fileira = 0
 
     let direcao = Math.floor(Math.random() * 4)
-    console.log(direcao)
     let errado = false
     switch (direcao) {
 
@@ -56,6 +46,7 @@ function gerarPalavra(palavra) {
                     cordsJaOcupadas.push(`${fileira + i},${coluna}`);
                 }
                 cacaPalavras = cacaPalavrasAtualizado;
+                listaPalavras.push(palavra)
                 break;
             } else {
                 gerarPalavra(palavra)
@@ -81,6 +72,7 @@ function gerarPalavra(palavra) {
                     cordsJaOcupadas.push(`${fileira},${coluna+i}`)
                 }
                 cacaPalavras = cacaPalavrasAtualizado;
+                listaPalavras.push(palavra)
                 break;
             } else {
                 gerarPalavra(palavra)
@@ -108,6 +100,7 @@ function gerarPalavra(palavra) {
                     cordsJaOcupadas.push(`${fileira + i},${coluna}`);
                 }
                 cacaPalavras = cacaPalavrasAtualizado;
+                listaPalavras.push(palavra)
                 break;
             } else {
                 gerarPalavra(palavra);
@@ -133,6 +126,7 @@ function gerarPalavra(palavra) {
                     cordsJaOcupadas.push(`${fileira},${coluna+i}`);
                 }
                 cacaPalavras = cacaPalavrasAtualizado;
+                listaPalavras.push(palavra)
                 break;
             } else {
                 gerarPalavra(palavra);
@@ -156,12 +150,39 @@ function mostrarLetras() {
             linha.append(letra)
         }
     }
+
+    for (let i = 0; i < listaPalavras.length; i++) {
+        mostradorPalavras.textContent += `${listaPalavras[i]}, `
+        if (i === listaPalavras.length-1) {
+            mostradorPalavras.textContent = mostradorPalavras.textContent.slice(0, -2)
+        }
+    }
 }
 
 function inverterString(texto) {
     return texto.split('').reverse().join('');
 }
 
+
+async function pegarPalavraAleatoria() {
+    let palavras = []
+    for (let i = 0; i < tamanhoCacaPalavras/4; i++){
+        let palavra = ''
+        do {
+            const response = await fetch('https://api.dicionario-aberto.net/random');
+            const data = await response.json();
+            palavra = data.word.toUpperCase();
+        } while (palavra.length > tamanhoCacaPalavras)
+        
+        palavras.push(palavra)
+    }
+    return palavras;
+}
+    
 gerarTabuleiro()
-gerarPalavra('abc')
-mostrarLetras()
+pegarPalavraAleatoria().then(p => {
+    for (let i = 0; i < p.length; i++) {
+        gerarPalavra(p[i])
+    }
+    mostrarLetras()
+})
