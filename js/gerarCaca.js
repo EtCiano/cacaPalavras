@@ -166,13 +166,18 @@ function mostrarLetras() {
                         if (x === letrasSelecionadas[0]['x'] && x == letrasSelecionadas[1]['x']) {
                             // TODO: adicionar a mecânica de, caso a palavra já esteja ganha, ela não poder ser selecionada
                             // TODO: colocar a capacidade dele tirar a seleção caso passe por ela denovo
+                            
                             letra.classList.add('div_letra_selecionada')
+
+                            if (letrasSelecionadas[-2]['y'] === letrasSelecionadas[-1]['y']+1 && letrasSelecionadas[-2]['y'] > letrasSelecionadas[-1]['y']) {
+                                //TODO: adicionar função para, caso entre a ultima letra e a letra atual tenha alguma(s) letra(s) não selecionada(s), seleciona-las
+                            }
                         } else if (y === letrasSelecionadas[0]['y'] && y == letrasSelecionadas[1]['y']) {
                             letra.classList.add('div_letra_selecionada')
                         } else {
                             letrasSelecionadas.pop()
                         }
-                    } else {
+                    } else if (letra === letrasSelecionadas[0]['elemento']) {
                         letra.classList.add('div_letra_selecionada')
                     }
                     
