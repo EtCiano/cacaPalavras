@@ -165,6 +165,7 @@ function mostrarLetras() {
                     if (letrasSelecionadas[0] && letrasSelecionadas[1]) {
                         if (x === letrasSelecionadas[0]['x'] && x == letrasSelecionadas[1]['x']) {
                             // TODO: adicionar a mecânica de, caso a palavra já esteja ganha, ela não poder ser selecionada
+                            // TODO: colocar a capacidade dele tirar a seleção caso passe por ela denovo
                             letra.classList.add('div_letra_selecionada')
                         } else if (y === letrasSelecionadas[0]['y'] && y == letrasSelecionadas[1]['y']) {
                             letra.classList.add('div_letra_selecionada')
@@ -185,6 +186,7 @@ function mostrarLetras() {
                 letrasSelecionadas.forEach(letra => {
                     palavraSelecionada += letra['letra']
                 });
+                // TODO: \/ mudar a lógica para, mesmo se as letras não estiverem na ordem, ele ainda sim contar como a palavra correta (por exemplo, selecionar as letras corretas mas em uma ordem errada)
                 if (listaPalavras.includes(palavraSelecionada) || listaPalavras.includes(inverterString(palavraSelecionada))) {
                     console.log('ganhou (:')
                     palavraGanha = true
