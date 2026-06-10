@@ -4,6 +4,10 @@ let cacaPalavrasAtualizado = []
 let tamanhoCacaPalavras = 20
 const mostradorPalavras = document.getElementById('palavras_lista')
 let listaPalavras = []
+// let listaLetrasDiv = []
+
+let segurando = false
+let letrasSelecionadas = []
 
 const divPrincipal = document.getElementById('div_principal')
 const alfabeto = 'abcdefghijklmnopqrstuvwxyzç'.split('')
@@ -147,10 +151,60 @@ function mostrarLetras() {
         for (let y = 0; y < tamanhoCacaPalavras; y++) {
             const letra = document.createElement('div')
             letra.textContent = cacaPalavras[x][y]
+            letra.classList.add('div_letra')
             linha.append(letra)
+            // listaLetrasDiv.push(letra)
+
+            letra.addEventListener('mousedown', function() {
+                segurando = true
+            });
+
+            letra.addEventListener('mouseenter', function() {
+                if (segurando) { // TODO: resolver o problema da primeira letra selecionada não estar sendo realmente selecionada (a letra inicial)
+                    letrasSelecionadas.push({'x': x, 'y': y, 'letra': letra.textContent, 'elemento': letra})
+                    if (letrasSelecionadas[0] && letrasSelecionadas[1]) {
+                        if (x === letrasSelecionadas[0]['x'] && x == letrasSelecionadas[1]['x']) {
+                            // TODO: adicionar a mecânica de, caso a palavra já esteja ganha, ela não poder ser selecionada
+                            letra.classList.add('div_letra_selecionada')
+                        } else if (y === letrasSelecionadas[0]['y'] && y == letrasSelecionadas[1]['y']) {
+                            letra.classList.add('div_letra_selecionada')
+                        } else {
+                            letrasSelecionadas.pop()
+                        }
+                    } else {
+                        letra.classList.add('div_letra_selecionada')
+                    }
+                    
+                }
+            })
+
+            letra.addEventListener('mouseup', function() {
+                segurando = !segurando
+                let palavraGanha = false
+                palavraSelecionada = ''
+                letrasSelecionadas.forEach(letra => {
+                    palavraSelecionada += letra['letra']
+                });
+                if (listaPalavras.includes(palavraSelecionada) || listaPalavras.includes(inverterString(palavraSelecionada))) {
+                    console.log('ganhou (:')
+                    palavraGanha = true
+                }
+                letrasSelecionadas = []
+
+                const elementos = document.querySelectorAll('.div_letra_selecionada');
+
+                elementos.forEach(elemento => {
+                    if (palavraGanha) {
+                        elemento.classList.add('div_letra_ganha')
+                    }
+                    elemento.classList.remove('div_letra_selecionada');
+                });
+            })
         }
     }
-
+    for (letra in letrasSelecionadas) {
+        console.log(letra[2])
+    }
     for (let i = 0; i < listaPalavras.length; i++) {
         mostradorPalavras.textContent += `${listaPalavras[i]}, `
         if (i === listaPalavras.length-1) {
@@ -171,7 +225,8 @@ async function pegarPalavraAleatoria() {
         do {
             const response = await fetch('https://api.dicionario-aberto.net/random');
             const data = await response.json();
-            palavra = data.word.toUpperCase();
+            // palavra = data.word.toUpperCase(); 
+            palavra = data.word;
         } while (palavra.length > tamanhoCacaPalavras)
         
         palavras.push(palavra)

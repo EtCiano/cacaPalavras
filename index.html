@@ -5,38 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caça Palavras</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        #div_principal {
-            display: flex;
-            flex-direction: column;
-            row-gap: 5px;
-        }
-        
-        .div_linha {
-            display: grid;
-            grid-template-columns: repeat(15, 1fr);
-            column-gap: 10px;
-        }
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
 
-        .div_linha div {
-            font-size: 25px;
-            text-align: center;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-    </style>
+#div_principal {
+    display: flex;
+    flex-direction: column;
+    zoom: clamp(0.3, min(calc(100vw / (20 * 35px)), calc(85vh / (20 * 35px))), 1);
+}
+
+.div_linha {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+}
+
+.div_linha div {
+    font-size: 25px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.div_letra {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2.5px;
+    padding-top: 2.5px;
+    user-select: none;
+}
+.div_letra_selecionada {
+    background: rgb(100, 100, 100);
+}
+
+.div_letra_ganha {
+    background: rgb(0, 100, 0);
+}
+</style>
 </head>
 <body>
     <h1 id="palavras_lista"></h1>
