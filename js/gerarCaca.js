@@ -1,8 +1,9 @@
+const tamanhoCacaPalavras = 20
 let cacaPalavras = []
 let cordsJaOcupadas = []
 let cacaPalavrasAtualizado = []
-let tamanhoCacaPalavras = 20
 const mostradorPalavras = document.getElementById('palavras_lista')
+let letrasElementos = []
 let listaPalavras = []
 // let listaLetrasDiv = []
 
@@ -15,6 +16,7 @@ const alfabeto = 'abcdefghijklmnopqrstuvwxyzç'.split('')
 function gerarTabuleiro() {
     for (let x = 0; x < tamanhoCacaPalavras; x++) {
         cacaPalavras.push([])
+        letrasElementos.push([])
         for (let y = 0; y < tamanhoCacaPalavras; y++) {
             letraAleatoria = alfabeto[Math.floor(Math.random() * alfabeto.length)].toUpperCase()
             cacaPalavras[x].push(letraAleatoria)
@@ -141,18 +143,18 @@ function gerarPalavra(palavra) {
 }
 
 
-
 function mostrarLetras() {
-     for (let x = 0; x < cacaPalavras.length; x++) {
+     for (let y = 0; y < cacaPalavras.length; y++) {
         const linha = document.createElement('div')
         linha.classList.add('div_linha')
         linha.style.gridTemplateColumns = `repeat(${tamanhoCacaPalavras}, 1fr)`
         divPrincipal.append(linha)
-        for (let y = 0; y < tamanhoCacaPalavras; y++) {
+        for (let x = 0; x < tamanhoCacaPalavras; x++) {
             const letra = document.createElement('div')
-            letra.textContent = cacaPalavras[x][y]
+            letra.textContent = cacaPalavras[y][x]
             letra.classList.add('div_letra')
             linha.append(letra)
+            letrasElementos[y].push(letra)
             // listaLetrasDiv.push(letra)
 
             letra.addEventListener('mousedown', function() {
@@ -160,25 +162,32 @@ function mostrarLetras() {
             });
 
             letra.addEventListener('mouseenter', function() {
-                if (segurando) { // TODO: resolver o problema da primeira letra selecionada não estar sendo realmente selecionada (a letra inicial)
-                    letrasSelecionadas.push({'x': x, 'y': y, 'letra': letra.textContent, 'elemento': letra})
-                    if (letrasSelecionadas[0] && letrasSelecionadas[1]) {
-                        if (x === letrasSelecionadas[0]['x'] && x == letrasSelecionadas[1]['x']) {
-                            // TODO: adicionar a mecânica de, caso a palavra já esteja ganha, ela não poder ser selecionada
-                            // TODO: colocar a capacidade dele tirar a seleção caso passe por ela denovo
-                            
-                            letra.classList.add('div_letra_selecionada')
+                if (segurando) { 
+                    let letraSerAdicionada = {}
+                    let direcaoSelecao = ''
 
-                            if (letrasSelecionadas[-2]['y'] === letrasSelecionadas[-1]['y']+1 && letrasSelecionadas[-2]['y'] > letrasSelecionadas[-1]['y']) {
-                                //TODO: adicionar função para, caso entre a ultima letra e a letra atual tenha alguma(s) letra(s) não selecionada(s), seleciona-las
-                            }
-                        } else if (y === letrasSelecionadas[0]['y'] && y == letrasSelecionadas[1]['y']) {
-                            letra.classList.add('div_letra_selecionada')
+                    if (letrasSelecionadas[0] && letrasSelecionadas[1]) {
+                        
+                        if (letrasSelecionadas[0]['y'] === letrasSelecionadas[1]['y']) direcaoSelecao = 'y'
+                        if (letrasSelecionadas[0]['x'] === letrasSelecionadas[1]['x']) direcaoSelecao = 'x'
+                        
+                        if (direcaoSelecao === 'y') {
+                            
+                            letrasElementos[letrasSelecionadas[0]['y']][x].classList.add('div_letra_selecionada')
+                            letraSerAdicionada = {'y': letrasSelecionadas[0]['y'], 'x': x, 'letra': letrasElementos[letrasSelecionadas[0]['y']][x].textContent, 'elemento': letrasElementos[letrasSelecionadas[0]['y']][x]}
+
+                        } else if (direcaoSelecao === 'x') {
+                            letrasElementos[y][letrasSelecionadas[0]['x']].classList.add('div_letra_selecionada')
+                            letrasSelecionadas.push()
+                            letraSerAdicionada = {'y': y, 'x': letrasSelecionadas[0]['x'], 'letra': letrasElementos[y][letrasSelecionadas[0]['x']].textContent, 'elemento': letrasElementos[y][letrasSelecionadas[0]['x']]}
+                            
                         } else {
                             letrasSelecionadas.pop()
                         }
-                    } else if (letra === letrasSelecionadas[0]['elemento']) {
-                        letra.classList.add('div_letra_selecionada')
+                    if (JSON.stringify(letrasSelecionadas.at(-1)) !== JSON.stringify(letraSerAdicionada)) letrasSelecionadas.push(letraSerAdicionada);
+                    } else {
+                        letrasElementos[y][x].classList.add('div_letra_selecionada')
+                        letrasSelecionadas.push({'y': y, 'x': x, 'letra': letra.textContent, 'elemento': letra})
                     }
                     
                 }
@@ -191,7 +200,7 @@ function mostrarLetras() {
                 letrasSelecionadas.forEach(letra => {
                     palavraSelecionada += letra['letra']
                 });
-                // TODO: \/ mudar a lógica para, mesmo se as letras não estiverem na ordem, ele ainda sim contar como a palavra correta (por exemplo, selecionar as letras corretas mas em uma ordem errada)
+                console.log(palavraSelecionada)
                 if (listaPalavras.includes(palavraSelecionada) || listaPalavras.includes(inverterString(palavraSelecionada))) {
                     console.log('ganhou (:')
                     palavraGanha = true
@@ -248,3 +257,9 @@ pegarPalavraAleatoria().then(p => {
     }
     mostrarLetras()
 })
+
+// TODO: \/ mudar a lógica para, mesmo se as letras não estiverem na ordem, ele ainda sim contar como a palavra correta (por exemplo, selecionar as letras corretas mas em uma ordem errada) (função linha 199)
+// TODO: adicionar a mecânica de, caso a palavra já esteja ganha, ela não poder ser selecionada (função linha 164)
+// TODO: colocar a capacidade dele tirar a seleção caso passe por ela denovo (função linha 164)
+// TODO: resolver o problema da primeira letra selecionada não estar sendo realmente selecionada (a letra inicial) (função linha 164)
+// TODO: Adicionar as bordas arredondadas para o fim e o começo da seleção das letras (função linha 164)
