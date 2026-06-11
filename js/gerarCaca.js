@@ -1,14 +1,15 @@
 const tamanhoCacaPalavras = 20
+const mostradorPalavras = document.getElementById('palavras_lista')
+
 let cacaPalavras = []
+let letrasElementos = []
+
 let cordsJaOcupadas = []
 let cacaPalavrasAtualizado = []
-const mostradorPalavras = document.getElementById('palavras_lista')
-let letrasElementos = []
 let listaPalavras = []
-// let listaLetrasDiv = []
-
 let segurando = false
 let letrasSelecionadas = []
+// let listaLetrasDiv = []
 
 const divPrincipal = document.getElementById('div_principal')
 const alfabeto = 'abcdefghijklmnopqrstuvwxyzç'.split('')
@@ -32,8 +33,6 @@ function gerarPalavra(palavra) {
     let direcao = Math.floor(Math.random() * 4)
     let errado = false
     switch (direcao) {
-
-
 
         case 0:         // cima para baixo
             coluna  = Math.floor(Math.random() * tamanhoCacaPalavras)
@@ -142,7 +141,6 @@ function gerarPalavra(palavra) {
     }
 }
 
-
 function mostrarLetras() {
      for (let y = 0; y < cacaPalavras.length; y++) {
         const linha = document.createElement('div')
@@ -218,9 +216,7 @@ function mostrarLetras() {
             })
         }
     }
-    for (letra in letrasSelecionadas) {
-        console.log(letra[2])
-    }
+    
     for (let i = 0; i < listaPalavras.length; i++) {
         mostradorPalavras.textContent += `${listaPalavras[i]}, `
         if (i === listaPalavras.length-1) {
@@ -263,3 +259,4 @@ pegarPalavraAleatoria().then(p => {
 // TODO: colocar a capacidade dele tirar a seleção caso passe por ela denovo (função linha 164)
 // TODO: resolver o problema da primeira letra selecionada não estar sendo realmente selecionada (a letra inicial) (função linha 164)
 // TODO: Adicionar as bordas arredondadas para o fim e o começo da seleção das letras (função linha 164)
+// TODO: juntar alguns dos Loops e deixar o código mais optimizado e organizado em geral
