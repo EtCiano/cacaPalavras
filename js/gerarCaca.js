@@ -286,3 +286,5 @@ renderizar()
 // TODO: mudar a interfaçe na aba de jogar para mostrar a pontuação e mostrar quais palavras ja foram marcadas
 
 // TODO: mudar a lógica para, quando o mouse sair do eixo e ir para uma letra ja selecionada, ele deselecionar todas as letras depois dessa
+
+// TODO: adicionar a compatibilidade com o celular
