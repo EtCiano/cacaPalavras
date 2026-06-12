@@ -3,64 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caça Palavras</title>
-    <style>
-    * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-#div_principal {
-    display: flex;
-    flex-direction: column;
-    zoom: clamp(0.3, min(calc(100vw / (20 * 35px)), calc(85vh / (20 * 35px))), 1);
-}
-
-.div_linha {
-    display: grid;
-    grid-template-columns: repeat(15, 1fr);
-}
-
-.div_linha div {
-    font-size: 25px;
-    text-align: center;
-}
-
-h1 {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.div_letra {
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 2.5px;
-    padding-top: 2.5px;
-    user-select: none;
-}
-.div_letra_selecionada {
-    background: rgb(100, 100, 100);
-}
-
-.div_letra_ganha {
-    background: rgb(0, 100, 0);
-}
-</style>
+    <title>Caça Palavras - configuração</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 id="palavras_lista"></h1>
-    <div id="div_principal">
-    </div>
-    <script src="js/gerarCaca.js"></script>
+    <fieldset id="configurar_field">
+        <legend>Configurar</legend>
+        <div>
+            <label for="tamanhoInput">Tamanho</label>
+            <input type="number" placeholder="tamanho (Ex.: 20x20)" id="tamanhoInput" value="20">
+        </div>
+        <div>
+            <label for="quantidadePalavras">quantidade de palavras</label>
+            <input type="number" placeholder="quantidade de palavras (Ex.: 5)" id="quantidadePalavras" value="5">
+        </div>
+        <div class="checkbox_div">
+            <label for="inverterPalavras">Palavras invertidas?</label>
+            <input type="checkbox" id="inverterPalavras" value="checked" checked>
+        </div>
+        <div class="checkbox_div">
+            <label for="minusculo">Palavras em minúsculo (debug)?</label>
+            <input type="checkbox" id="minusculo">
+        </div>
+        <button onclick="config.jogar()">jogar</button>
+    </fieldset>
+    <script src="js/configurarUI.js"></script>
 </body>
 </html>

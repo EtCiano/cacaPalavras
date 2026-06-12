@@ -1,0 +1,74 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+#div_principal {
+    display: flex;
+    flex-direction: column;
+    zoom: clamp(0.3, min(calc(100vw / (20 * 35px)), calc(85vh / (20 * 35px))), 1);
+}
+
+.div_linha {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+}
+
+.div_linha div {
+    font-size: 25px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.div_letra {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2.5px;
+    padding-top: 2.5px;
+    user-select: none;
+}
+.div_letra_selecionada {
+    background: rgb(100, 100, 100);
+}
+
+.div_letra_ganha {
+    background: rgb(0, 100, 0);
+}
+
+#configurar_field {
+    height: 300px;
+    width: 300px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#configurar_field legend {
+    margin-left: 10px;
+}
+
+#configurar_field div {
+    display: flex;
+    flex-direction: column;
+}
+
+#configurar_field .checkbox_div {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
