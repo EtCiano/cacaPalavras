@@ -293,4 +293,4 @@ renderizar()
 
 // TODO: adicionar a compatibilidade com o celular
 
-// TODO: mudar a engine da seleção de letras para 
+// TODO: mudar a engine da seleção de letras para não ficar com espaços entre as letras e não bugar o sistema de tirar seleção
