@@ -210,15 +210,16 @@ function mostrarLetras() {
 
             letra.addEventListener('mouseup', function() {
                 segurando = !segurando
-                let palavraGanha = false
-                // palavraSelecionada = ''
+                let palavraGanha = {'estado': false, 'palavra': NaN}
+                const mostradorPalavrasLista = Array.from(mostradorPalavras.children)
+                console.log(mostradorPalavrasLista)
                     listaPalavras.forEach(palavraAlvo => {
                         let similaridade = 0
                         if (letrasSelecionadas.length > palavraAlvo.length) return
                         letrasSelecionadas.forEach(letra => {
                             if (palavraAlvo.includes(letra['letra'])) similaridade += 1
                         });
-                        if (similaridade === palavraAlvo.length) palavraGanha = true
+                        if (similaridade === palavraAlvo.length) palavraGanha = {'estado': true, 'palavra': palavraAlvo}
                     })
 
                 letrasSelecionadas = []
@@ -226,8 +227,9 @@ function mostrarLetras() {
                 const elementos = document.querySelectorAll('.div_letra_selecionada');
 
                 elementos.forEach(elemento => {
-                    if (palavraGanha) {
+                    if (palavraGanha['estado']) {
                         elemento.classList.add('div_letra_ganha')
+                        mostradorPalavrasLista[listaPalavras.indexOf(palavraGanha['palavra'])].style.textDecoration = 'line-through'
                     }
                     elemento.classList.remove('div_letra_selecionada');
                 });
@@ -236,10 +238,12 @@ function mostrarLetras() {
     }
     
     for (let i = 0; i < listaPalavras.length; i++) {
-        mostradorPalavras.textContent += `${listaPalavras[i]}, `
-        if (i === listaPalavras.length-1) {
-            mostradorPalavras.textContent = mostradorPalavras.textContent.slice(0, -2)
-        }
+        const palavraMostrador = document.createElement('span')
+        palavraMostrador.textContent = listaPalavras[i]
+        mostradorPalavras.append(palavraMostrador)
+        // if (i === listaPalavras.length-1) {
+        //     mostradorPalavras.textContent = mostradorPalavras.textContent.slice(0, -2)
+        // }
     }
 }
 
@@ -288,3 +292,5 @@ renderizar()
 // TODO: mudar a lógica para, quando o mouse sair do eixo e ir para uma letra ja selecionada, ele deselecionar todas as letras depois dessa
 
 // TODO: adicionar a compatibilidade com o celular
+
+// TODO: mudar a engine da seleção de letras para 
